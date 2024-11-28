@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <!-- Bootstrap 5 CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <!-- Custom styles -->
+    <style>
+        .calculator {
+          max-width: 300px; /* Limit the calculator width */
+          margin: 50px auto; /* Center the calculator */
+        }
+        .form-control-plaintext {
+          text-align: right; /* Align text to the right */
+          font-size: 1.5rem; /* Increase font size for better visibility */
+          height: 60px; /* Set height of the input */
+        }
+        button {
+          font-size: 1.5rem; /* Increase button font size */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container w-50 mt-5"> <!-- Bootstrap container for layout -->
+        <div class="row">
+            <div class="col-6 offset-3"> <!-- Centered column -->
+                <h1>Calculator</h1>
+                <!-- First value input -->
+                <div class="mb-3">
+                    <input type="text" name="value1" value="5" class="form-control" placeholder="Enter first value">
+                </div>
+                <!-- Operator selection -->
+                <div class="mb-3">
+                    <select name="operator" class="form-select">
+                        <option value="add">Add</option>
+                        <option value="subtract">Subtract</option>
+                        <option value="multiply">Multiply</option>
+                        <option value="divide">Divide</option>
+                    </select>
+                </div>
+                <!-- Second value input -->
+                <div class="mb-3">
+                    <input type="text" name="value2" id="value2" value="5" class="form-control" placeholder="Enter second value">
+                </div>
+                <!-- Button to trigger calculation -->
+                <div class="mb-3">
+                    <button id="getTotal" class="btn btn-primary w-100">=</button>
+                </div>
+                <!-- Display result in this readonly input -->
+                <div class="mb-3">
+                    <input type="text" name="total_value" readonly class="form-control" placeholder="Total">
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <!-- jQuery for handling click event -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        // Function to calculate the total based on the selected operator
+        function getTotalValue(val1, val2, operator) {
+            // Convert input values to numbers to perform arithmetic operations
+            val1 = parseFloat(val1);
+            val2 = parseFloat(val2);
+
+            // Switch statement to handle different operators
+            switch (operator) {
+                case 'add':
+                    return val1 + val2; // Addition
+                case 'subtract':
+                    return val1 - val2; // Subtraction
+                case 'multiply':
+                    return val1 * val2; // Multiplication
+                case 'divide':
+                    // Check for division by zero
+                    return val2 !== 0 ? val1 / val2 : 'Error: Div by 0'; // Division
+                default:
+                    return 'Invalid Operator'; // Handle invalid operator
+            }
+        }
+
+        // jQuery function that runs after the document is fully loaded
+        $(document).ready(function() {
+            // Click event listener for the "=" button
+            $('#getTotal').on('click', function(e) {
+                e.preventDefault(); // Prevent default form submission behavior
+
+                // Get input values
+                var value1 = $("input[name=value1]").val();
+                var value2 = $('#value2').val();
+                var operator = $("select[name='operator']").val();
+
+                // Console log for debugging purposes
+                console.clear(); // Clear previous logs
+                console.log('value1', value1);
+                console.log('value2', value2);
+                console.log('operator', operator);
+
+                // Calculate the total and set the value in the readonly total input field
+                $("input[name=total_value]").val(getTotalValue(value1, value2, operator));
+
+                console.log('total value', $("input[name=total_value]").val());
+            });
+        });
+    </script>
+
+</body>
+</html>
